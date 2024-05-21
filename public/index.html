@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoo Management</title>
+</head>
+<body>
+    <h1>Zoo Management</h1>
+    <form id="addZooForm">
+        <input type="text" id="zooName" placeholder="Zoo Name" required>
+        <input type="text" id="zooLocation" placeholder="Zoo Location" required>
+        <button type="submit">Add Zoo</button>
+    </form>
+    <button onclick="deleteZoo(1)">Delete Zoo with ID 1</button>
+
+    <script>
+        // Event listener for the Add Zoo form submission
+        document.getElementById('addZooForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('zooName').value;
+            const location = document.getElementById('zooLocation').value;
+            
+            // Sending POST request to add a new zoo
+            const response = await fetch('/zoos/add-zoo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, location }),
+            });
+            const result = await response.json();
+            console.log(result);
+        });
+
+        // Function to delete a zoo by ID
+        async function deleteZoo(id) {
+            const response = await fetch(`/zoos/delete-zoo/${id}`, {
+                method: 'DELETE',
+            });
+            const result = await response.json();
+            console.log(result);
+        }
+    </script>
+</body>
+</html>
